@@ -19,6 +19,8 @@
       <% if element.persisted? %>
         <%= form_with(model: [@post, element]) do |form| %>
           <%= form.text_area :content %>
+          <%= form.rich_text_area :content %>
+          <br/>
           <%= form.submit "Save", class: 'btn btn-primary' %>
         <% end %>
       <% end %>
