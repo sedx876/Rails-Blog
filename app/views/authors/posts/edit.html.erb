@@ -6,6 +6,19 @@
         <h4 class="card-title">Editing Post</h4>
         <%= render 'form', post: @post %>
       </div>
+      <div class="card-footer">
+        <% if @post.published? %>
+        <a href='#' 
+        class='btn btn-secondary btn-block'
+        data-reflex='click->PublisherReflex#unpublish'
+        data-post-id='<% @post.id %>'>Unpublish</a>
+        <% else %>
+        <a href='#' 
+        class='btn btn-dark btn-block'
+        data-reflex='click->PublisherReflex#publish'
+        data-post-id='<% @post.id %>'>Publish</a>
+        <% end %>
+      </div>
     </div>
   </div>
   <div class="col-md-9">
@@ -49,7 +62,11 @@
       <% elsif element.image? %>
       <div class="mb-4 p-3 image">
         <% if element.image.present? %>
-      <%= image_tag(element.image) %>
+        <div>
+          <%= image_tag(element.image) %>
+        </div>
+      <%= link_to 'Delete', post_element_path(@post, element), method: 
+          :delete, class: 'btn btn-danger mt-2', data: { confirm: 'Are You sure?' } %>
       <% else %>
       <%= form_with(model: [@post, element]) do |form| %>
           <%= form.file_field :image %>
@@ -57,6 +74,7 @@
             <%= form.submit "Save", class: 'btn btn-primary' %>
             <a href="#" class='cancel btn btn-secondary'>Cancel</a>
           </div>
+          
         <% end %>
         <% end %>
       </div>
